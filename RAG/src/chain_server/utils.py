@@ -45,7 +45,10 @@ try:
     from llama_index.core.indices import VectorStoreIndex
     from llama_index.core.postprocessor.types import BaseNodePostprocessor
     from llama_index.core.schema import MetadataMode
-    from llama_index.core.service_context import ServiceContext, set_global_service_context
+    from llama_index.core.service_context import (
+        ServiceContext,
+        set_global_service_context,
+    )
     from llama_index.core.utils import get_tokenizer, globals_helper
     from llama_index.embeddings.langchain import LangchainEmbedding
     from llama_index.llms.langchain import LangChainLLM
@@ -397,6 +400,8 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
                 top_p=kwargs.get('top_p', None),
                 max_tokens=kwargs.get('max_tokens', None),
             )
+    elif settings.llm.model_engine == "openai":
+        pass
     else:
         raise RuntimeError(
             "Unable to find any supported Large Language Model server. Supported engine name is nvidia-ai-endpoints."
@@ -438,6 +443,8 @@ def get_embedding_model() -> Embeddings:
         else:
             logger.info(f"Using embedding model {settings.embeddings.model_name} hosted at api catalog")
             return NVIDIAEmbeddings(model=settings.embeddings.model_name, truncate="END")
+    elif settings.llm.model_engine == "openai":
+        pass
     else:
         raise RuntimeError(
             "Unable to find any supported embedding model. Supported engine is huggingface and nvidia-ai-endpoints."
@@ -464,6 +471,8 @@ def get_ranking_model() -> BaseDocumentCompressor:
             elif settings.ranking.model_name:
                 logger.info(f"Using ranking model {settings.ranking.model_name} hosted at api catalog")
                 return NVIDIARerank(model=settings.ranking.model_name, top_n=settings.retriever.top_k, truncate="END")
+        elif settings.llm.model_engine == "openai":
+            pass
         else:
             logger.warning("Unable to find any supported ranking model. Supported engine is nvidia-ai-endpoints.")
     except Exception as e:

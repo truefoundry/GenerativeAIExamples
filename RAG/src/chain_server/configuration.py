@@ -14,7 +14,11 @@
 # limitations under the License.
 
 """The definition of the application configuration."""
-from RAG.src.chain_server.configuration_wizard import ConfigWizard, configclass, configfield
+from RAG.src.chain_server.configuration_wizard import (
+    ConfigWizard,
+    configclass,
+    configfield,
+)
 
 
 @configclass
@@ -61,12 +65,17 @@ class LLMConfig(ConfigWizard):
     model_engine: str = configfield(
         "model_engine",
         default="nvidia-ai-endpoints",
-        help_txt="The server type of the hosted model. Allowed values are nvidia-ai-endpoints",
+        help_txt="The server type of the hosted model. Allowed values are nvidia-ai-endpoints,openai",
     )
     model_name_pandas_ai: str = configfield(
         "model_name_pandas_ai",
         default="ai-mixtral-8x7b-instruct",
         help_txt="The name of the ai catalog model to be used with PandasAI agent",
+    )
+    api_key: str = configfield(
+        "api_key",
+        default="",
+        help_txt="API KEY",
     )
 
 
@@ -104,7 +113,7 @@ class EmbeddingConfig(ConfigWizard):
     model_engine: str = configfield(
         "model_engine",
         default="nvidia-ai-endpoints",
-        help_txt="The server type of the hosted model. Allowed values are hugginface",
+        help_txt="The server type of the hosted model. Allowed values are hugginface,openai",
     )
     dimensions: int = configfield(
         "dimensions",
@@ -113,6 +122,11 @@ class EmbeddingConfig(ConfigWizard):
     )
     server_url: str = configfield(
         "server_url", default="", help_txt="The url of the server hosting nemo embedding model",
+    )
+    api_key: str = configfield(
+        "api_key",
+        default="",
+        help_txt="API KEY",
     )
 
 
@@ -129,10 +143,15 @@ class RankingConfig(ConfigWizard):
     model_engine: str = configfield(
         "model_engine",
         default="nvidia-ai-endpoints",
-        help_txt="The server type of the hosted model. Allowed values are nvidia-ai-endpoints",
+        help_txt="The server type of the hosted model. Allowed values are nvidia-ai-endpoints,openai",
     )
     server_url: str = configfield(
         "server_url", default="", help_txt="The url of the server hosting nemo Ranking model",
+    )
+    api_key: str = configfield(
+        "api_key",
+        default="",
+        help_txt="API KEY",
     )
 
 
