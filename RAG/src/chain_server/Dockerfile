@@ -57,4 +57,5 @@ COPY RAG/src/pandasai /opt/RAG/src/pandasai
 COPY RAG/tools /opt/RAG/tools
 
 WORKDIR /opt
+ENV PYTHONPATH=/opt
 ENTRYPOINT ["uvicorn", "RAG.src.chain_server.server:app"]
