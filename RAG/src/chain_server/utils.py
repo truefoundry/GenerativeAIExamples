@@ -460,7 +460,6 @@ def get_embedding_model() -> Embeddings:
             logger.info(f"Using embedding model {settings.embeddings.model_name} hosted at api catalog")
             return NVIDIAEmbeddings(model=settings.embeddings.model_name, truncate="END")
     elif settings.llm.model_engine == "openai":
-        logger.info(f"Using embedding model {settings.embeddings.model_name} from api catalog")
         embeddings = OpenAIEmbeddings(
             model=settings.embeddings.model_name,
             base_url=settings.embeddings.server_url,

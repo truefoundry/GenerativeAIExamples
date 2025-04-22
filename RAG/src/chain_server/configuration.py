@@ -19,7 +19,7 @@ from RAG.src.chain_server.configuration_wizard import (
     configclass,
     configfield,
 )
-
+import os
 
 @configclass
 class VectorStoreConfig(ConfigWizard):
@@ -74,7 +74,7 @@ class LLMConfig(ConfigWizard):
     )
     api_key: str = configfield(
         "api_key",
-        default="",
+        default=os.getenv("OPENAI_API_KEY"),
         help_txt="API KEY",
     )
 
@@ -117,7 +117,7 @@ class EmbeddingConfig(ConfigWizard):
     )
     dimensions: int = configfield(
         "dimensions",
-        default=1024,
+        default=1536,
         help_txt="The required dimensions of the embedding model. Currently utilized for vector DB indexing.",
     )
     server_url: str = configfield(
@@ -125,7 +125,7 @@ class EmbeddingConfig(ConfigWizard):
     )
     api_key: str = configfield(
         "api_key",
-        default="",
+        default=os.getenv("OPENAI_API_KEY"),
         help_txt="API KEY",
     )
 
@@ -150,7 +150,7 @@ class RankingConfig(ConfigWizard):
     )
     api_key: str = configfield(
         "api_key",
-        default="",
+        default=os.getenv("OPENAI_API_KEY"),
         help_txt="API KEY",
     )
 

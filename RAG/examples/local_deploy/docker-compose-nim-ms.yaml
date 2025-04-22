@@ -10,7 +10,7 @@ services:
     expose:
     - "8000"
     environment:
-      NGC_API_KEY: ${NGC_API_KEY}
+      NGC_API_KEY: ${NGC_API_KEY:-1234567890}
     shm_size: 20gb
     deploy:
       resources:
@@ -37,7 +37,7 @@ services:
     expose:
     - "8000"
     environment:
-      NGC_API_KEY: ${NGC_API_KEY}
+      NGC_API_KEY: ${NGC_API_KEY:-1234567890}
     user: "${USERID}"
     shm_size: 16GB
     deploy:
@@ -65,22 +65,22 @@ services:
     expose:
     - "8000"
     environment:
-      NGC_API_KEY: ${NGC_API_KEY}
+      NGC_API_KEY: ${NGC_API_KEY:-1234567890}
     user: "${USERID}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 10s
       timeout: 20s
       retries: 100
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              device_ids: ['${RANKING_MS_GPU_ID:-0}']
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           device_ids: ['${RANKING_MS_GPU_ID:-0}']
+    #           capabilities: [gpu]
     profiles: ["nemo-retriever"]
 
 networks:
   default:
-    name: nvidia-rag
+    name: openai-rag

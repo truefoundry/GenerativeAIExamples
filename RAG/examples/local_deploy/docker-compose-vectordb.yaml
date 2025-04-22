@@ -74,13 +74,13 @@ services:
     depends_on:
       - "etcd"
       - "minio"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              capabilities: ["gpu"]
-              device_ids: ['${VECTORSTORE_GPU_DEVICE_ID:-0}']
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           capabilities: ["gpu"]
+    #           device_ids: ['${VECTORSTORE_GPU_DEVICE_ID:-0}']
     profiles: ["nemo-retriever", "milvus", ""]
 
   elasticsearch:
@@ -119,4 +119,4 @@ services:
 
 networks:
   default:
-    name: nvidia-rag
+    name: openai-rag
