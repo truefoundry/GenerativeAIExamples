@@ -58,4 +58,4 @@ COPY RAG/tools /opt/RAG/tools
 
 WORKDIR /opt
 ENV PYTHONPATH=/opt
-ENTRYPOINT ["uvicorn", "RAG.src.chain_server.server:app"]
+ENTRYPOINT ["uvicorn", "server:app", "--app-dir", "RAG/src/chain_server"]
