@@ -100,12 +100,16 @@ from langchain_core.language_models.chat_models import SimpleChatModel
 
 from RAG.src.chain_server import configuration
 
+from llama_index.core import Settings
+# from llama_index.llms.openai_like import OpenAILike
+from langchain_openai import ChatOpenAI
+from langchain_openai import OpenAIEmbeddings
+
+
 if TYPE_CHECKING:
     from RAG.src.chain_server.configuration_wizard import ConfigWizard
 
 DEFAULT_MAX_CONTEXT = 1500
-
-
 class LimitRetrievedNodesLength(BaseNodePostprocessor):
     """Llama Index chain filter to limit token lengths."""
 
@@ -401,7 +405,19 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
                 max_tokens=kwargs.get('max_tokens', None),
             )
     elif settings.llm.model_engine == "openai":
-        pass
+        logger.info(f"Using llm model {settings.llm.model_name} from api catalog")
+
+        llm = ChatOpenAI(
+            model=settings.llm.model_name,
+            base_url=settings.llm.server_url,
+            api_key=settings.llm.api_key,
+            default_headers={
+                "X-TFY-METADATA": '{"tfy_log_request":"true"}',
+            },
+            # is_chat_model=True
+        )
+        return llm
+
     else:
         raise RuntimeError(
             "Unable to find any supported Large Language Model server. Supported engine name is nvidia-ai-endpoints."
@@ -444,7 +460,16 @@ def get_embedding_model() -> Embeddings:
             logger.info(f"Using embedding model {settings.embeddings.model_name} hosted at api catalog")
             return NVIDIAEmbeddings(model=settings.embeddings.model_name, truncate="END")
     elif settings.llm.model_engine == "openai":
-        pass
+        logger.info(f"Using embedding model {settings.embeddings.model_name} from api catalog")
+        embeddings = OpenAIEmbeddings(
+            model=settings.embeddings.model_name,
+            base_url=settings.embeddings.server_url,
+            api_key=settings.embeddings.api_key,
+            default_headers={
+                "X-TFY-METADATA": '{"tfy_log_request":"true"}',
+            },
+        )
+        return embeddings
     else:
         raise RuntimeError(
             "Unable to find any supported embedding model. Supported engine is huggingface and nvidia-ai-endpoints."
@@ -471,8 +496,17 @@ def get_ranking_model() -> BaseDocumentCompressor:
             elif settings.ranking.model_name:
                 logger.info(f"Using ranking model {settings.ranking.model_name} hosted at api catalog")
                 return NVIDIARerank(model=settings.ranking.model_name, top_n=settings.retriever.top_k, truncate="END")
-        elif settings.llm.model_engine == "openai":
-            pass
+        elif settings.ranking.model_engine == "openai":
+            logger.info(f"Using ranking model {settings.ranking.model_name} from api catalog")
+            llm = OpenAILike(
+                model=settings.ranking.model_name,
+                api_base=settings.ranking.server_url,
+                api_key=settings.ranking.api_key,
+                default_headers={
+                    "X-TFY-METADATA": '{"tfy_log_request":"true"}',
+                },
+            )
+            return llm
         else:
             logger.warning("Unable to find any supported ranking model. Supported engine is nvidia-ai-endpoints.")
     except Exception as e:
