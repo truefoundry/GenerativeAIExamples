@@ -74,7 +74,7 @@ class LLMConfig(ConfigWizard):
     )
     api_key: str = configfield(
         "api_key",
-        default=os.getenv("OPENAI_API_KEY"),
+        default=os.getenv("TFY_API_KEY"),
         help_txt="API KEY",
     )
 
@@ -125,7 +125,7 @@ class EmbeddingConfig(ConfigWizard):
     )
     api_key: str = configfield(
         "api_key",
-        default=os.getenv("OPENAI_API_KEY"),
+        default=os.getenv("TFY_API_KEY"),
         help_txt="API KEY",
     )
 
@@ -150,7 +150,7 @@ class RankingConfig(ConfigWizard):
     )
     api_key: str = configfield(
         "api_key",
-        default=os.getenv("OPENAI_API_KEY"),
+        default=os.getenv("TFY_API_KEY"),
         help_txt="API KEY",
     )
 

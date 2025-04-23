@@ -101,7 +101,7 @@ from langchain_core.language_models.chat_models import SimpleChatModel
 from RAG.src.chain_server import configuration
 
 from llama_index.core import Settings
-# from llama_index.llms.openai_like import OpenAILike
+from llama_index.llms.openai_like import OpenAILike
 from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 
