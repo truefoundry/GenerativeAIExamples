@@ -148,6 +148,7 @@ def build_page(client: chat_client.ChatClient) -> gr.Blocks:
                 show_label=False,
                 container=False,
                 elem_id="microphone",
+                api_name=False,
             )
 
         # user feedback
