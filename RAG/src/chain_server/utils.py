@@ -97,14 +97,11 @@ from langchain.llms.base import LLM
 from langchain_core.documents.compressor import BaseDocumentCompressor
 from langchain_core.embeddings import Embeddings
 from langchain_core.language_models.chat_models import SimpleChatModel
-
-from RAG.src.chain_server import configuration
-
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from llama_index.core import Settings
 from llama_index.llms.openai_like import OpenAILike
-from langchain_openai import ChatOpenAI
-from langchain_openai import OpenAIEmbeddings
 
+from RAG.src.chain_server import configuration
 
 if TYPE_CHECKING:
     from RAG.src.chain_server.configuration_wizard import ConfigWizard
@@ -490,7 +487,9 @@ def get_ranking_model() -> BaseDocumentCompressor:
             if settings.ranking.server_url:
                 logger.info(f"Using ranking model hosted at {settings.ranking.server_url}")
                 return NVIDIARerank(
-                    base_url=f"http://{settings.ranking.server_url}/v1", top_n=settings.retriever.top_k, truncate="END"
+                    base_url=f"{settings.ranking.server_url}/v1",
+                    top_n=settings.retriever.top_k,
+                    truncate="END",
                 )
             elif settings.ranking.model_name:
                 logger.info(f"Using ranking model {settings.ranking.model_name} hosted at api catalog")
