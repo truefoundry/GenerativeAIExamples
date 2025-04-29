@@ -411,6 +411,7 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
+            verify_ssl_certs=False,
             # is_chat_model=True
         )
         return llm
@@ -464,6 +465,7 @@ def get_embedding_model() -> Embeddings:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
+            verify_ssl_certs=False,
         )
         return embeddings
     else:
@@ -503,6 +505,7 @@ def get_ranking_model() -> BaseDocumentCompressor:
                 default_headers={
                     "X-TFY-METADATA": '{"tfy_log_request":"true"}',
                 },
+                verify_ssl_certs=False,
             )
             return llm
         else:
