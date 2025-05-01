@@ -22,6 +22,13 @@ from shlex import quote
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
 from urllib.parse import urlparse
 
+import requests
+
+SSL_VERIFY = os.getenv("SSL_VERIFY", "true")
+
+s = requests.Session()
+s.verify = SSL_VERIFY == "true"
+
 import yaml
 
 logger = logging.getLogger(__name__)
