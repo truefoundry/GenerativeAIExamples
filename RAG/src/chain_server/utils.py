@@ -415,6 +415,8 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
+            base_url=settings.embeddings.server_url,
+            api_key=settings.embeddings.api_key,
             client=OpenAI(
                 api_key=settings.embeddings.api_key,
                 base_url=settings.embeddings.server_url,
@@ -472,6 +474,8 @@ def get_embedding_model() -> Embeddings:
                 base_url=settings.embeddings.server_url,
                 http_client=httpx.Client(verify=SSL_VERIFY == "true"),
             ),
+            base_url=settings.embeddings.server_url,
+            api_key=settings.embeddings.api_key,
             model=settings.embeddings.model_name,
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
