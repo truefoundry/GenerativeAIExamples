@@ -105,6 +105,7 @@ from langchain_core.language_models.chat_models import SimpleChatModel
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from llama_index.core import Settings
 from llama_index.llms.openai_like import OpenAILike
+from openai import OpenAI
 
 from RAG.src.chain_server import configuration
 
@@ -411,13 +412,14 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
 
         llm = ChatOpenAI(
             model=settings.llm.model_name,
-            base_url=settings.llm.server_url,
-            api_key=settings.llm.api_key,
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
-            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
-            http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
+            client=OpenAI(
+                api_key=settings.embeddings.api_key,
+                base_url=settings.embeddings.server_url,
+                http_client=httpx.Client(verify=SSL_VERIFY == "true"),
+            ),
             # is_chat_model=True
         )
         return llm
@@ -465,14 +467,15 @@ def get_embedding_model() -> Embeddings:
             return NVIDIAEmbeddings(model=settings.embeddings.model_name, truncate="END")
     elif settings.llm.model_engine == "openai":
         embeddings = OpenAIEmbeddings(
+            client=OpenAI(
+                api_key=settings.embeddings.api_key,
+                base_url=settings.embeddings.server_url,
+                http_client=httpx.Client(verify=SSL_VERIFY == "true"),
+            ),
             model=settings.embeddings.model_name,
-            base_url=settings.embeddings.server_url,
-            api_key=settings.embeddings.api_key,
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
-            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
-            http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
         )
         return embeddings
     else:
