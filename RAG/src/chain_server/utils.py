@@ -415,13 +415,14 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
-            base_url=settings.embeddings.server_url,
-            api_key=settings.embeddings.api_key,
-            client=OpenAI(
-                api_key=settings.embeddings.api_key,
-                base_url=settings.embeddings.server_url,
+            base_url=settings.llm.server_url,
+            api_key=settings.llm.api_key,
+            async_client=OpenAI(
+                api_key=settings.llm.api_key,
+                base_url=settings.llm.server_url,
                 http_client=httpx.Client(verify=SSL_VERIFY == "true"),
             ),
+            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
             # is_chat_model=True
         )
         return llm
@@ -469,17 +470,18 @@ def get_embedding_model() -> Embeddings:
             return NVIDIAEmbeddings(model=settings.embeddings.model_name, truncate="END")
     elif settings.llm.model_engine == "openai":
         embeddings = OpenAIEmbeddings(
-            client=OpenAI(
-                api_key=settings.embeddings.api_key,
-                base_url=settings.embeddings.server_url,
-                http_client=httpx.Client(verify=SSL_VERIFY == "true"),
-            ),
             base_url=settings.embeddings.server_url,
             api_key=settings.embeddings.api_key,
             model=settings.embeddings.model_name,
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
+            async_client=OpenAI(
+                api_key=settings.embeddings.api_key,
+                base_url=settings.embeddings.server_url,
+                http_client=httpx.Client(verify=SSL_VERIFY == "true"),
+            ),
+            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
         )
         return embeddings
     else:
