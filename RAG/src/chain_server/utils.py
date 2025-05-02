@@ -416,8 +416,7 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
-            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
-            http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
+            http_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
             # is_chat_model=True
         )
         return llm
@@ -471,8 +470,7 @@ def get_embedding_model() -> Embeddings:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
-            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
-            http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
+            http_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
         )
         return embeddings
     else:
@@ -512,8 +510,7 @@ def get_ranking_model() -> BaseDocumentCompressor:
                 default_headers={
                     "X-TFY-METADATA": '{"tfy_log_request":"true"}',
                 },
-                http_client=httpx.Client(verify=SSL_VERIFY == "true"),
-                http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
+                http_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
             )
             return llm
         else:
