@@ -22,12 +22,10 @@ from shlex import quote
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional
 from urllib.parse import urlparse
 
-import requests
+import httpx
 
 SSL_VERIFY = os.getenv("SSL_VERIFY", "true")
 
-s = requests.Session()
-s.verify = SSL_VERIFY == "true"
 
 import yaml
 
@@ -418,7 +416,8 @@ def get_llm(**kwargs) -> LLM | SimpleChatModel:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
-            verify_ssl_certs=False,
+            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
+            http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
             # is_chat_model=True
         )
         return llm
@@ -472,7 +471,8 @@ def get_embedding_model() -> Embeddings:
             default_headers={
                 "X-TFY-METADATA": '{"tfy_log_request":"true"}',
             },
-            verify_ssl_certs=False,
+            http_client=httpx.Client(verify=SSL_VERIFY == "true"),
+            http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
         )
         return embeddings
     else:
@@ -512,7 +512,8 @@ def get_ranking_model() -> BaseDocumentCompressor:
                 default_headers={
                     "X-TFY-METADATA": '{"tfy_log_request":"true"}',
                 },
-                verify_ssl_certs=False,
+                http_client=httpx.Client(verify=SSL_VERIFY == "true"),
+                http_async_client=httpx.AsyncClient(verify=SSL_VERIFY == "true"),
             )
             return llm
         else:
