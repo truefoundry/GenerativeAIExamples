@@ -25,19 +25,18 @@ services:
       APP_VECTORSTORE_URL: "http://milvus:19530"
       # Type of vectordb used to store embedding supported type milvus, pgvector
       APP_VECTORSTORE_NAME: "milvus"
-      APP_EMBEDDINGS_MODELNAME: ${APP_EMBEDDINGS_MODELNAME:-nvidia/nv-embedqa-e5-v5}
+      APP_EMBEDDINGS_MODELNAME: ${APP_EMBEDDINGS_MODELNAME:-openai-main/text-embedding-ada-002}
       # embedding model engine used for inference, supported type nvidia-ai-endpoints, huggingface
-      APP_EMBEDDINGS_MODELENGINE: ${APP_EMBEDDINGS_MODELENGINE:-nvidia-ai-endpoints}
+      APP_EMBEDDINGS_MODELENGINE: ${APP_EMBEDDINGS_MODELENGINE:-openai}
       # url on which embedding model is hosted. If "", Nvidia hosted API is used
-      APP_EMBEDDINGS_SERVERURL: ${APP_EMBEDDINGS_SERVERURL:-""}
+      APP_EMBEDDINGS_SERVERURL: ${APP_EMBEDDINGS_SERVERURL:-"https://internal.devtest.truefoundry.tech/api/llm/api/inference/openai"}
       # url on which llm model is hosted. If "", Nvidia hosted API is used
-      APP_LLM_SERVERURL: ${APP_LLM_SERVERURL:-""}
-      APP_LLM_MODELNAME: ${APP_LLM_MODELNAME:-"meta/llama3-8b-instruct"}
+      APP_LLM_SERVERURL: ${APP_LLM_SERVERURL:-"https://internal.devtest.truefoundry.tech/api/llm/api/inference/openai"}
+      APP_LLM_MODELNAME: ${APP_LLM_MODELNAME:-"openai-main/gpt-4o"}
       # embedding model engine used for inference, supported type nvidia-ai-endpoints
-      APP_LLM_MODELENGINE: ${APP_LLM_MODELENGINE:-nvidia-ai-endpoints}
-      NVIDIA_API_KEY: ${NVIDIA_API_KEY}
+      APP_LLM_MODELENGINE: ${APP_LLM_MODELENGINE:-openai}
       # vectorstore collection name to store embeddings 
-      COLLECTION_NAME: ${COLLECTION_NAME:-developer_rag}
+      COLLECTION_NAME: ${COLLECTION_NAME:-openai-rag}
       APP_RETRIEVER_TOPK: 4
       APP_RETRIEVER_SCORETHRESHOLD: 0.25
       # observability server url
@@ -81,7 +80,7 @@ services:
       APP_SERVERURL: http://chain-server
       APP_SERVERPORT: 8081
       # model name displayed on UI
-      APP_MODELNAME: ${APP_LLM_MODELNAME:-"meta/llama3-8b-instruct"}
+      APP_MODELNAME: ${APP_LLM_MODELNAME:-"openai-main/gpt-4o"}
       # observability server url
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_EXPORTER_OTLP_PROTOCOL: grpc
@@ -96,4 +95,4 @@ services:
 
 networks:
   default:
-    name: nvidia-rag
+    name: openai-rag
