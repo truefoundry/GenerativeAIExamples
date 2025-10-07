@@ -12,7 +12,7 @@ langchain==0.2.5
 langchain-community==0.2.5
 langchain-core==0.2.7
 langchain-nvidia-ai-endpoints==0.1.6
-langchain-text-splitters==0.2.1
+langchain-text-splitters==1.0.0a1
 llama-hub==0.0.43
 llama-index==0.9.22
 opencv-python==4.8.0.74
