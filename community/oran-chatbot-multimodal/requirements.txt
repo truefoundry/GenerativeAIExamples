@@ -10,7 +10,7 @@ gspread==6.0.0
 jupyterlab==4.0.8
 langchain==0.2.5
 langchain-community==0.2.5
-langchain-core==0.2.7
+langchain-core==1.2.11
 langchain-nvidia-ai-endpoints==0.1.6
 langchain-text-splitters==0.2.1
 llama-hub==0.0.43
