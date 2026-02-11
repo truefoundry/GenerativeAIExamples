@@ -1,7 +1,7 @@
 pymupdf==1.24.10
 streamlit==1.38.0
 python-pptx==1.0.2
-Pillow==10.4.0
+Pillow==12.1.1
 requests==2.32.3
 frontend==0.0.3
 llama-index-core==0.10.58
