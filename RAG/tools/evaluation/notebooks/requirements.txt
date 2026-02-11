@@ -10,6 +10,6 @@ pymilvus==2.3.6
 jupyterlab==4.0.8
 ragas==0.1.7
 seaborn==0.13.0
-langchain-core==0.1.40
+langchain-core==1.2.11
 langchain-nvidia-ai-endpoints==0.1.1
 atlassian-python-api==3.41.4
